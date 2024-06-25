@@ -17,7 +17,7 @@ import Variation from './variation';
 import Subtitle from '../subtitle';
 
 export default function TypographyVariations( { title, gap = 2 } ) {
-	const propertyToFilter = 'color';
+	const propertyToFilter = 'typography';
 	const typographyVariations =
 		useCurrentMergeThemeStyleVariationsWithUserConfig( propertyToFilter );
 
