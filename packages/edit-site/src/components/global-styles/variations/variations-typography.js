@@ -10,14 +10,16 @@ import {
 /**
  * Internal dependencies
  */
-import { useTypographyVariations } from '../hooks';
+import { useCurrentMergeThemeStyleVariationsWithUserConfig } from '../../../hooks/use-theme-style-variations/use-theme-style-variations-by-property';
 import TypographyExample from '../typography-example';
 import PreviewIframe from '../preview-iframe';
 import Variation from './variation';
 import Subtitle from '../subtitle';
 
 export default function TypographyVariations( { title, gap = 2 } ) {
-	const typographyVariations = useTypographyVariations();
+	const propertyToFilter = 'color';
+	const typographyVariations =
+		useCurrentMergeThemeStyleVariationsWithUserConfig( propertyToFilter );
 
 	// Return null if there is only one variation (the default).
 	if ( typographyVariations?.length <= 1 ) {
@@ -38,7 +40,7 @@ export default function TypographyVariations( { title, gap = 2 } ) {
 						<Variation
 							key={ index }
 							variation={ variation }
-							property="typography"
+							property={ propertyToFilter }
 							showTooltip
 						>
 							{ ( isFocused ) => (
