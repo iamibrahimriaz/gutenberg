@@ -38,6 +38,7 @@ const { state, actions, callbacks } = store(
 	{
 		state: {
 			currentImage: {},
+			isGallery: false,
 			get overlayOpened() {
 				return state.currentImage.currentSrc;
 			},
@@ -72,20 +73,30 @@ const { state, actions, callbacks } = store(
 					return;
 				}
 
-				// Stores the positons of the scroll to fix it until the overlay is
+				
+				// const currentImageRef = galleryRef?.children[currentImageIndex]?.children[0]
+				
+				
+				// Stores the positions of the scroll to fix it until the overlay is
 				// closed.
 				state.scrollTopReset = document.documentElement.scrollTop;
 				state.scrollLeftReset = document.documentElement.scrollLeft;
+				
+				// store the current image context
+				state.currentContext = ctx;
 
-				// Moves the information of the expaned image to the state.
-				ctx.currentSrc = ctx.imageRef.currentSrc;
-				imageRef = ctx.imageRef;
+				callbacks.initGallery(ctx.imageRef)
+				callbacks.setCurrentImage()
+
+				// Moves the information of the expanded image to the state.
+				// ctx.currentSrc = ctx.imageRef.currentSrc;
+				// imageRef = ctx.imageRef;
 				buttonRef = ctx.buttonRef;
-				state.currentImage = ctx;
+				// state.currentImage = ctx;
 				state.overlayEnabled = true;
 
 				// Computes the styles of the overlay for the animation.
-				callbacks.setOverlayStyles();
+				// callbacks.setOverlayStyles();
 			},
 			hideLightbox() {
 				if ( state.overlayEnabled ) {
@@ -114,6 +125,22 @@ const { state, actions, callbacks } = store(
 					state.overlayEnabled = false;
 				}
 			},
+			showPreviousImage(e) {
+				e.stopPropagation();
+				if (state.currentImageIndex - 1 < 0) {
+					return
+				}
+				state.currentImageIndex = state.currentImageIndex - 1
+				callbacks.setCurrentImage()
+			},
+			showNextImage(e) {
+				e.stopPropagation();
+				if (state.currentImageIndex + 1 >= state.gallerySize) {
+					return
+				}
+				state.currentImageIndex = state.currentImageIndex + 1
+				callbacks.setCurrentImage()
+			},
 			handleKeydown( event ) {
 				if ( state.overlayEnabled ) {
 					// Focuses the close button when the user presses the tab key.
@@ -121,10 +148,18 @@ const { state, actions, callbacks } = store(
 						event.preventDefault();
 						const { ref } = getElement();
 						ref.querySelector( 'button' ).focus();
+
+						// TODO: now that there are next and prev buttons, rotate the focus
 					}
 					// Closes the lightbox when the user presses the escape key.
 					if ( event.key === 'Escape' ) {
 						actions.hideLightbox();
+					}
+
+					if ( event.key === 'ArrowLeft' ) {
+						actions.showPreviousImage(event);
+					} else if ( event.key === 'ArrowRight' ) {
+						actions.showNextImage(event);
 					}
 				}
 			},
@@ -173,6 +208,43 @@ const { state, actions, callbacks } = store(
 			},
 		},
 		callbacks: {
+			initGallery(imageRef) {
+				const { lightbox, galleryRef: gRef } = getContext('core/gallery') || {}
+				if (!lightbox || !gRef) {
+					state.isGallery = false
+					return
+				}
+
+				state.isGallery = lightbox || false
+				state.galleryRef = gRef;
+				state.gallerySize = gRef.children.length;
+
+				let currentIndex = 0;
+				for (let i = 0; i < state.galleryRef.children.length; i++) {
+					if (state.galleryRef.children[i].children[0] === imageRef) {
+						currentIndex = i;
+						break;
+					}
+				}
+				state.currentImageIndex = currentIndex;
+			},
+			setCurrentImage() {
+				let currentImageRef = state.currentContext.imageRef
+				console.log({currentImageIndex: state.currentImageIndex})
+				if (state.isGallery) {
+					currentImageRef = state.galleryRef?.children[state.currentImageIndex]?.children[0]
+					console.log({currentImageRef})
+				}
+
+				// Moves the information of the expanded image to the state.
+				state.currentContext.currentSrc = currentImageRef.currentSrc // ctx.imageRef.currentSrc;
+				imageRef = currentImageRef // ctx.imageRef;
+				state.currentImage = currentImageRef
+				// state.currentImage = state.currentContext;
+
+				// Computes the styles of the overlay for the animation.
+				callbacks.setOverlayStyles();
+			},
 			setOverlayStyles() {
 				if ( ! imageRef ) {
 					return;
@@ -210,17 +282,20 @@ const { state, actions, callbacks } = store(
 				}
 				originalRatio = originalWidth / originalHeight;
 
+				// BUG: The targetWidth and targetHeight are not being set correctly
+				console.log({targetWidth: state.currentImage.targetHeight, targetHeight: state.currentImage.targetHeight})
+
 				// Typically, it uses the image's full-sized dimensions. If those
 				// dimensions have not been set (i.e. an external image with only one
 				// size), the image's dimensions in the lightbox are the same
 				// as those of the image in the content.
 				let imgMaxWidth = parseFloat(
-					state.currentImage.targetWidth !== 'none'
+					(state.currentImage.targetWidth && state.currentImage.targetWidth !== 'none')
 						? state.currentImage.targetWidth
 						: naturalWidth
 				);
 				let imgMaxHeight = parseFloat(
-					state.currentImage.targetHeight !== 'none'
+					(state.currentImage.targetHeight && state.currentImage.targetHeight !== 'none')
 						? state.currentImage.targetHeight
 						: naturalHeight
 				);
