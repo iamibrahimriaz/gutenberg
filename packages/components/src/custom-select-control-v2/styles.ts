@@ -127,17 +127,44 @@ export const SelectPopover = styled( Ariakit.SelectPopover )`
 	}
 `;
 
-export const SelectItem = styled( Ariakit.SelectItem )`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: ${ ITEM_PADDING };
-	font-size: ${ CONFIG.fontSize };
-	line-height: 2.15rem; // TODO: Remove this in default but keep for back-compat in legacy
-	&[data-active-item] {
-		background-color: ${ COLORS.theme.gray[ 300 ] };
-	}
-`;
+export const SelectItem = styled( Ariakit.SelectItem )( ( {
+	size,
+}: {
+	size: NonNullable< CustomSelectButtonSize[ 'size' ] >;
+} ) => {
+	const getSize = () => {
+		const sizes = {
+			compact: {
+				paddingInlineStart: space( 2 ),
+				paddingInlineEnd: space( 1 ),
+			},
+			default: {
+				paddingInlineStart: space( 4 ),
+				paddingInlineEnd: space( 3 ),
+			},
+			small: {
+				paddingInlineStart: space( 2 ),
+				paddingInlineEnd: space( 1 ),
+			},
+		};
+
+		return sizes[ size ] || sizes.default;
+	};
+
+	return css`
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: ${ ITEM_PADDING };
+		font-size: ${ CONFIG.fontSize };
+		line-height: 2.15rem; // TODO: Remove this in default but keep for back-compat in legacy
+		&[data-active-item] {
+			background-color: ${ COLORS.theme.gray[ 300 ] };
+		}
+
+		${ getSize() }
+	`;
+} );
 
 export const SelectedItemCheck = styled( Ariakit.SelectItemCheck )`
 	display: flex;
