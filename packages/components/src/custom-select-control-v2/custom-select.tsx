@@ -92,6 +92,8 @@ function _CustomSelect(
 		...restProps
 	} = props;
 
+	const contextValue = useMemo( () => ( { store, size } ), [ store, size ] );
+
 	return (
 		// Where should `restProps` be forwarded to?
 		<div className={ className }>
@@ -118,7 +120,7 @@ function _CustomSelect(
 					sameWidth
 					slide={ false }
 				>
-					<CustomSelectContext.Provider value={ { store } }>
+					<CustomSelectContext.Provider value={ contextValue }>
 						{ children }
 					</CustomSelectContext.Provider>
 				</Styled.SelectPopover>
