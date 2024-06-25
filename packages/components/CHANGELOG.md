@@ -4,6 +4,7 @@
 
 ### Internal
 
+-   `CustomSelectControlV2`: fix item styles ([#62825](https://github.com/WordPress/gutenberg/pull/62825))
 -   `CustomSelectControlV2`: add root element wrapper. ([#62803](https://github.com/WordPress/gutenberg/pull/62803))
 -   `CustomSelectControlV2`: fix popover styles. ([#62821](https://github.com/WordPress/gutenberg/pull/62821))
 -   `CustomSelectControlV2`: fix trigger text alignment in RTL languages ([#62869](https://github.com/WordPress/gutenberg/pull/62869)).
@@ -22,6 +23,7 @@
 -   `CustomSelectControlV2`: fix handling of extra option attributes in the `onChange` callbacks and when forwarding them to the option DOM elements. ([#62255](https://github.com/WordPress/gutenberg/pull/62255))
 -   `CustomSelectControlV2`: fix setting initial value and reacting to external controlled updates. ([#62733](https://github.com/WordPress/gutenberg/pull/62733))
 -   `CustomSelectControlV2`: Handle long strings in selected value ([#62198](https://github.com/WordPress/gutenberg/pull/62198)).
+-   `CustomSelectControlV2`: fix item styles ([#62825](https://github.com/WordPress/gutenberg/pull/62825))
 
 ## 28.1.0 (2024-06-15)
 
