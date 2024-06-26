@@ -40,6 +40,7 @@ import {
 	useHasEditorCanvasContainer,
 } from '../editor-canvas-container';
 import SaveButton from '../save-button';
+import SavePanel from '../save-panel';
 import SiteEditorMoreMenu from '../more-menu';
 import SiteIcon from '../site-icon';
 import useEditorIframeProps from '../block-editor/use-editor-iframe-props';
@@ -198,6 +199,11 @@ export default function EditSiteEditor( { isLoading } ) {
 					enableRegionNavigation={ false }
 					customSaveButton={
 						_isPreviewingTheme && <SaveButton size="compact" />
+					}
+					customSavePanel={
+						( _isPreviewingTheme || canvasMode === 'view' ) && (
+							<SavePanel />
+						)
 					}
 					forceDisableBlockTools={ ! hasDefaultEditorCanvasView }
 					title={ title }
