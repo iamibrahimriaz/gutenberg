@@ -89,6 +89,7 @@ function _CustomSelect(
 		size,
 		store,
 		className,
+		isLegacy = false,
 		...restProps
 	} = props;
 
