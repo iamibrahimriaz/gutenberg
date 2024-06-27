@@ -27,6 +27,14 @@ export type CustomSelectButtonSize = CustomSelectSize<
 	'compact' | 'default' | 'small'
 >;
 
+export type CustomSelectButtonInternalProps = {
+	/**
+	 * Determines if the list of options will appear when pressing the down arrow.
+	 * @default false
+	 */
+	showOnKeyDown?: boolean;
+};
+
 export type CustomSelectButtonProps = {
 	/**
 	 * An optional default value for the control when used in uncontrolled mode.
