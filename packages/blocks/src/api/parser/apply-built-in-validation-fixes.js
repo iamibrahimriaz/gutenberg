@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import { fixCustomClassname } from './fix-classnames';
+import { fixCustomClassname } from './fix-custom-classname';
 
 /**
  * Attempts to fix block invalidation by applying build-in validation fixes
