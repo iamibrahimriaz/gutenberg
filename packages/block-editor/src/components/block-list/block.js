@@ -604,12 +604,16 @@ function BlockListBlockProvider( props ) {
 			if ( hasLightBlockWrapper && blockName ) {
 				defaultClassNames.push( getBlockDefaultClassName( blockName ) );
 
-				if ( match && match?.name ) {
-					defaultClassNames.push(
-						getBlockDefaultClassName(
-							`${ blockName }/${ match.name }`
-						)
-					);
+				if (
+					hasBlockSupport( blockType, 'variationClassName', false )
+				) {
+					if ( match && match?.name ) {
+						defaultClassNames.push(
+							getBlockDefaultClassName(
+								`${ blockName }/${ match.name }`
+							)
+						);
+					}
 				}
 			}
 			const previewContext = {

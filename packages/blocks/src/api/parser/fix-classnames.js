@@ -1,8 +1,8 @@
 /**
  * Internal dependencies
  */
-import { hasBlockSupport, getActiveBlockVariation } from '../registration';
-import { getSaveContent, getBlockDefaultClassName } from '../serializer';
+import { hasBlockSupport } from '../registration';
+import { getSaveContent } from '../serializer';
 import { parseWithAttributeSchema } from './get-block-attributes';
 
 const CLASS_ATTR_SCHEMA = {
@@ -68,50 +68,4 @@ export function fixCustomClassname( blockAttributes, blockType, innerHTML ) {
 	}
 
 	return modifiedBlockAttributes;
-}
-
-/**
- * Given a block's attributes, block type settings, and innerHTML. If the block
- * has variations and the active variation is not reflected in the block's
- * markup, the active variation's class name is injected into the block's
- * markup.
- *
- * @param {Object} blockAttributes Original block attributes.
- * @param {Object} blockType       Block type settings.
- * @param {string} innerHTML       Original block markup.
- *
- * @return {string} Block markup.
- */
-export function fixVariationClassname( blockAttributes, blockType, innerHTML ) {
-	if ( hasBlockSupport( blockType, 'className', true ) ) {
-		const activeVariation = getActiveBlockVariation(
-			blockType.name,
-			blockAttributes
-		);
-
-		if ( activeVariation ) {
-			const variationName = `${ blockType.name }/${ activeVariation.name }`;
-			const variationClassName =
-				getBlockDefaultClassName( variationName );
-			const actualClasses = getHTMLRootElementClasses( innerHTML );
-			const hasVariationClassName =
-				actualClasses.includes( variationClassName );
-
-			if ( ! hasVariationClassName ) {
-				/**
-				  This Regex pattern matches HTML tags with a class attribute. Specifically, it matches:
-				  1. An opening tag with any attributes up to 'class="'.
-				  2. The contents of the class attribute.
-				  The replace function appends 'variationClassName' to the existing classes.
-				  For example, class="foo" becomes class="foo bar" if variationClassName is "bar".
-				 */
-				return innerHTML.replace(
-					/(<\w+[^>]*\s+class=")([^"]*)"/,
-					`$1$2 ${ variationClassName }"`
-				);
-			}
-		}
-	}
-
-	return innerHTML;
 }

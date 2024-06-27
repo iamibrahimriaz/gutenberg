@@ -76,7 +76,8 @@ const EditWithGeneratedProps = ( props ) => {
 
 	if ( hasBlockSupport( blockType, 'className', true ) ) {
 		generatedClassNames.push( getBlockDefaultClassName( name ) );
-
+	}
+	if ( hasBlockSupport( blockType, 'variationClassName', false ) ) {
 		const activeVariation = getActiveBlockVariation( name, attributes );
 		if ( activeVariation && activeVariation?.name ) {
 			generatedClassNames.push(

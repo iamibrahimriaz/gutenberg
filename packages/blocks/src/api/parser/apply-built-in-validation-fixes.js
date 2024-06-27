@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import { fixCustomClassname, fixVariationClassname } from './fix-classnames';
+import { fixCustomClassname } from './fix-classnames';
 
 /**
  * Attempts to fix block invalidation by applying build-in validation fixes
@@ -15,21 +15,14 @@ import { fixCustomClassname, fixVariationClassname } from './fix-classnames';
  * @return {WPBlock} Fixed block object
  */
 export function applyBuiltInValidationFixes( block, blockType ) {
-	const newContent = fixVariationClassname(
+	const updatedBlockAttributes = fixCustomClassname(
 		block.attributes,
 		blockType,
 		block.originalContent
 	);
 
-	const updatedBlockAttributes = fixCustomClassname(
-		block.attributes,
-		blockType,
-		newContent
-	);
-
 	return {
 		...block,
-		originalContent: newContent,
 		attributes: updatedBlockAttributes,
 	};
 }

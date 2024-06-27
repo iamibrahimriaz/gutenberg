@@ -25,7 +25,7 @@ export function addGeneratedVariationClassName(
 	attributes
 ) {
 	// Adding the generated className.
-	if ( hasBlockSupport( blockType, 'className', true ) ) {
+	if ( hasBlockSupport( blockType, 'variationClassName', false ) ) {
 		const activeVariation = getActiveBlockVariation(
 			blockType.name,
 			attributes

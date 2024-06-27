@@ -268,6 +268,11 @@
 					"description": "By default, the class .wp-block-your-block-name is added to the root element of your saved markup. This helps having a consistent mechanism for styling blocks that themes and plugins can rely on. If, for whatever reason, a class is not desired on the markup, this functionality can be disabled.",
 					"default": true
 				},
+				"variationClassName": {
+					"type": "boolean",
+					"description": "Blah.",
+					"default": false
+				},
 				"color": {
 					"type": "object",
 					"description": "This value signals that a block supports some of the properties related to color. When it does, the block editor will show UI controls for the user to set their values.\n\nNote that the background and text keys have a default value of true, so if the color property is present they’ll also be considered enabled",
