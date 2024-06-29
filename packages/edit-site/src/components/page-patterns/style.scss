@@ -62,7 +62,7 @@
 			cursor: pointer;
 			overflow: hidden;
 			height: 100%;
-			border-radius: 3px 3px 0 0;
+			border-radius: 3px;
 
 			&:focus-visible {
 				box-shadow: 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
