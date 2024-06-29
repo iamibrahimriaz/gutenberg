@@ -59,10 +59,7 @@ export default function SavePublishPanels( {
 				PostPublishExtension={ PluginPostPublishPanel.Slot }
 			/>
 		);
-	} else if (
-		hasNonPostEntityChanges ||
-		Object.keys( postMetaChanges ).length > 0
-	) {
+	} else if ( hasNonPostEntityChanges || postMetaChanges.length > 0 ) {
 		unmountableContent = (
 			<div className="editor-layout__toggle-entities-saved-states-panel">
 				<Button
